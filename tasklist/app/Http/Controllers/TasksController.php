@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Task;
 
 class TasksController extends Controller
 {
@@ -13,7 +14,7 @@ class TasksController extends Controller
     {
         //
         $tasks = Task::all();
-        return view('tasks.index', compact('tasks'));
+        return view('tasks.index',['tasks' => $tasks]);
     }
 
     /**
@@ -22,7 +23,6 @@ class TasksController extends Controller
     public function create()
     {
         //
-        return view('tasks.create');
     }
 
     /**
@@ -31,13 +31,6 @@ class TasksController extends Controller
     public function store(Request $request)
     {
         //
-        $validateDate = $request->validate(
-            [
-                'content' => 'required|max:255',
-            ]
-        );
-        Task::create($validateDate);
-        return redirect()->route('tasklist.index')->with('success', 'Task created successfully.');
     }
 
     /**
@@ -46,7 +39,6 @@ class TasksController extends Controller
     public function show(string $id)
     {
         //
-        return view('tasks.show', compact('task'));
     }
 
     /**
@@ -55,6 +47,21 @@ class TasksController extends Controller
     public function edit(string $id)
     {
         //
-        return view('tasks.edit', compact('task'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
     }
 }
