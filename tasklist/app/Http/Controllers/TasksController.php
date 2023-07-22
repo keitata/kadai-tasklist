@@ -12,17 +12,16 @@ class TasksController extends Controller
      */
     public function index()
     {
-        //
         $tasks = Task::all();
-        return view('tasks.index',['tasks' => $tasks]);
+        return view('tasks.index', compact('tasks'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        return view('tasks.create');
     }
 
     /**
@@ -30,7 +29,16 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'content' => 'required|string|max:255',
+        ]);
+
+        Task::create([
+            'content' => $request->input('content'),
+        ]);
+
+        return redirect()->route('tasks.index')->with('success', 'タスクが作成されました!');
+
     }
 
     /**
@@ -39,6 +47,8 @@ class TasksController extends Controller
     public function show(string $id)
     {
         //
+        $task = Task::findOrFail($id);
+        return view('tasks.show', compact('task'));
     }
 
     /**
@@ -47,6 +57,8 @@ class TasksController extends Controller
     public function edit(string $id)
     {
         //
+        $task = Task::findOrFail($id);
+        return view('tasks.edit', compact('task'));
     }
 
     /**
@@ -54,7 +66,16 @@ class TasksController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'content' => 'required|string|max:255',
+        ]);
+
+        $task = Task::findOrFail($id);
+        $task->update([
+            'content' => $request->input('content'),
+        ]);
+
+        return redirect()->route('tasks.index')->with('success', 'タスクが更新されました!');
     }
 
     /**
@@ -63,5 +84,9 @@ class TasksController extends Controller
     public function destroy(string $id)
     {
         //
+        $task = Task::findOrFail($id);
+        $task->delete();
+
+        return redirect()->route('tasks.index')->with('success', 'タスクが削除されました!');
     }
 }
