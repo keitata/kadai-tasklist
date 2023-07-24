@@ -13,6 +13,8 @@
         <input type="text" id="content" name="content" value="{{ $task->content }}" required>
         <button type="submit">更新</button>
     </form>
+    <label for="status">Status:</label>
+    <input type="text" name="status" value="{{ old('status', $task->status) }}" required>
 @endsection
 
 

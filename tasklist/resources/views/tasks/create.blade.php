@@ -8,6 +8,10 @@
         @csrf
         <label for="content">内容:</label>
         <input type="text" id="content" name="content" required>
+        <br>
+        <label for="status">Status:</label>
+        <input type="text" name="status" value="{{ old('status') }}" required>
+        <br>
         <button type="submit">作成</button>
     </form>
 @endsection

@@ -9,6 +9,7 @@
             @foreach ($tasks as $task)
                 <li>
                     <a href="{{ route('tasks.show', $task->id) }}">{{ $task->content }}</a>
+                    <span style="margin-left: 10px;">Status: {{ $task->status }}</span></br>
                     <form action="{{ route('tasks.destroy', $task->id) }}" method="post" style="display: inline;">
                         @csrf
                         @method('DELETE')
@@ -20,4 +21,5 @@
     @else
         <p>タスクはありません。</p>
     @endif
+    {{ $tasks->links() }}
 @endsection

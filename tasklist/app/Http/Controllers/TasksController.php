@@ -12,7 +12,8 @@ class TasksController extends Controller
      */
     public function index()
     {
-        $tasks = Task::all();
+        // $tasks = Task::all();
+        $tasks = Task::orderBy('created_at', 'desc')->paginate(3);
         return view('tasks.index', compact('tasks'));
     }
 
@@ -31,10 +32,12 @@ class TasksController extends Controller
     {
         $request->validate([
             'content' => 'required|string|max:255',
+            'status' => 'required|string|max:10',
         ]);
 
         Task::create([
             'content' => $request->input('content'),
+            'status' => $request->input('status'),
         ]);
 
         return redirect()->route('tasks.index')->with('success', 'タスクが作成されました!');
@@ -68,11 +71,13 @@ class TasksController extends Controller
     {
         $request->validate([
             'content' => 'required|string|max:255',
+            'status' => 'required|string|max:10',
         ]);
 
         $task = Task::findOrFail($id);
         $task->update([
             'content' => $request->input('content'),
+            'status' => $request->input('status'),
         ]);
 
         return redirect()->route('tasks.index')->with('success', 'タスクが更新されました!');
